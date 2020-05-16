@@ -15,92 +15,97 @@
 // THEN my input should be validated and at least one character type should be selected
 // WHEN all prompts are answered
 // THEN a password is generated that matches the selected criteria
-// WHEN the password is generated
-// THEN the password is either displayed in an alert or written to the page
+// ********** WHEN the password is generated
+// ********** THEN the password is either displayed in an alert or written to the page
 
 // Assignment code here
 
+// Password Criteria Functions
+var passCritFunctions = function () {
+  var length = function () {
+    var length = prompt("Select password length. (Between 8 and 128)");
+    if (length >= 8 && length <= 128) {
+      return length;
+    }
+    else {
+      alert("Enter a number between 8 and 128");
+      this.length();
+    }
+  };
+  var lowercase = function () {
+    var lowercase = prompt("Include lowercase? (y/n)");
+    lowercase = lowercase.toLowerCase();
+    if (lowercase === "y") {
+      return true;
+    }
+    else if (lowercase === "n") {
+      return false;
+    }
+    else {
+      alert("Enter 'y' or 'n'");
+      this.lowercase();
+    }
+  };
+  var uppercase = function () {
+    var uppercase = prompt("Include uppercase? (y/n)");
+    uppercase = uppercase.toLowerCase();
+    if (uppercase === "y") {
+      return true;
+    }
+    else if (uppercase === "n") {
+      return false;
+    }
+    else {
+      alert("Enter 'y' or 'n'");
+      this.uppercase();
+    }
+  };
+  var numeric = function () {
+    var numeric = prompt("Include numeric values? (y/n)");
+    numeric = numeric.toLowerCase();
+    if (numeric === "y") {
+      return true;
+    }
+    else if (numeric === "n") {
+      return false;
+    }
+    else {
+      alert("Enter 'y' or 'n'");
+      this.numeric();
+    }
+  };
+  var specialChar = function () {
+    var specialChar = prompt("Include special characters? (y/n)");
+    specialChar = specialChar.toLowerCase();
+    if (specialChar === "y") {
+      return true;
+    }
+    else if (specialChar === "n") {
+      return false;
+    }
+    else {
+      alert("Enter 'y' or 'n'");
+      this.specialChar();
+    }
+  };
+  passwordCrit = {
+    length: length(),
+    lowercase: lowercase(),
+    uppercase: uppercase(),
+    numeric: numeric(),
+    specialChar: specialChar(),
+  }
+  return passwordCrit;
+};
 
 // Generate Password Function
 var generatePassword = function () {
-  // Password Crit Functions
-  passCritFunctions = {
-    length: function () {
-      var length = prompt("Select password length. (Between 8 and 128)");
-      if (length >= 8 && length <= 128) {
-        return length;
-      }
-      else {
-        alert("Enter a number between 8 and 128");
-        this.length();
-      }
-    },
-    lowercase: function () {
-      var lowercase = prompt("Include lowercase? (y/n)");
-      lowercase = lowercase.toLowerCase();
-      if (lowercase === "y") {
-        return true;
-      }
-      else if (lowercase === "n") {
-        return false;
-      }
-      else {
-        alert("Enter 'y' or 'n'");
-        this.lowercase();
-      }
-    },
-    uppercase: function () {
-      var uppercase = prompt("Include uppercase? (y/n)");
-      uppercase = uppercase.toLowerCase();
-      if (uppercase === "y") {
-        return true;
-      }
-      else if (uppercase === "n") {
-        return false;
-      }
-      else {
-        alert("Enter 'y' or 'n'");
-        this.uppercase();
-      }
-    },
-    numeric: function () {
-      var numeric = prompt("Include numeric values? (y/n)");
-      numeric = numeric.toLowerCase();
-      if (numeric === "y") {
-        return true;
-      }
-      else if (numeric === "n") {
-        return false;
-      }
-      else {
-        alert("Enter 'y' or 'n'");
-        this.numeric();
-      }
-    },
-    specialChar: function () {
-      var specialChar = prompt("Include special characters? (y/n)");
-      specialChar = specialChar.toLowerCase();
-      if (specialChar === "y") {
-        return true;
-      }
-      else if (specialChar === "n") {
-        return false;
-      }
-      else {
-        alert("Enter 'y' or 'n'");
-        this.specialChar();
-      }
-    },
-  };
-  // Password Criteria Object
-  var passwordCrit = {
-    length: passCritFunctions.length(),
-    lowercase: passCritFunctions.lowercase(),
-    uppercase: passCritFunctions.uppercase(),
-    numeric: passCritFunctions.numeric(),
-    specialChar: passCritFunctions.specialChar(),
-  };
-}
+passCritFunctions();
+
+
+ return
+};
+
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
