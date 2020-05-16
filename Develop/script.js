@@ -159,6 +159,7 @@ var generatePassword = function () {
     oldPassword = oldPassword || "";
     var newPassword = oldPassword + character;
     sessionStorage.setItem("Password", newPassword);
+
   }
   return newPassword;
 };
