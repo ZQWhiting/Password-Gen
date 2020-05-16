@@ -1,30 +1,6 @@
-//AS AN employee with access to sensitive data
-//I WANT to randomly generate a password that meets certain criteria
-//SO THAT I can create a strong password that provides greater security
-
-// GIVEN I need a new, secure password
-// ********** WHEN I click the button to generate a password
-// ********** THEN I am presented with a series of prompts for password criteria
-// ********** WHEN prompted for password criteria
-// ********** THEN I select which criteria to include in the password
-// ********** WHEN prompted for the length of the password
-// ********** THEN I choose a length of at least 8 characters and no more than 128 characters
-// ********** WHEN prompted for character types to include in the password
-// ********** THEN I choose lowercase, uppercase, numeric, and/or special characters
-// WHEN I answer each prompt
-// THEN my input should be validated and at least one character type should be selected
-// WHEN all prompts are answered
-// THEN a password is generated that matches the selected criteria
-// ********** WHEN the password is generated
-// ********** THEN the password is either displayed in an alert or written to the page
-
-// Assignment code here
-
+// Assignment Code Here
 
 // Password Character Arrays
-passCritArray = [
-  0, 1, 2, 3,
-];
 lowercaseArray = [
   "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
 ];
@@ -37,72 +13,73 @@ numericArray = [
 specialCharArray = [
   " ", "!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", "`", "{", "|", "}", "~",
 ];
-// Password Criteria Functions
-var passCritFunctions = function () {
-  // Length
-  var length = function () {
-    var passLength = prompt("Select password length. (Between 8 and 128)");
-    if (passLength >= 8 && passLength <= 128) {
-      return passLength;
+
+// Password Criteria Input
+var criteriaInput = function () {
+  // Length Prompt
+  var lengthPrompt = function () {
+    var length = prompt("Select password length. (Between 8 and 128)");
+    if (length >= 8 && length <= 128) {
+      return length;
     }
     else {
       alert("Enter a number between 8 and 128");
-      length();
+      lengthPrompt();
     }
   };
-  // Lowercase
-  var lowercase = function () {
-    var passLowercase = prompt("Include lowercase? (y/n)");
-    passLowercase = passLowercase.toLowerCase();
-    if (passLowercase === "y") {
+  // Lowercase Prompt
+  var lowercasePrompt = function () {
+    var lowercase = prompt("Include lowercase? (y/n)");
+    lowercase = lowercase.toLowerCase();
+    if (lowercase === "y") {
       return true;
     }
-    else if (passLowercase === "n") {
+    else if (lowercase === "n") {
       return false;
     }
     else {
       alert("Enter 'y' or 'n'");
-      lowercase();
+      lowercasePrompt();
     }
   };
-  // Uppercase
-  var uppercase = function () {
-    var passUppercase = prompt("Include uppercase? (y/n)");
-    passUppercase = passUppercase.toLowerCase();
-    if (passUppercase === "y") {
+  // Uppercase Prompt
+  var uppercasePrompt = function () {
+    var uppercase = prompt("Include uppercase? (y/n)");
+    uppercase = uppercase.toLowerCase();
+    if (uppercase === "y") {
       return true;
     }
-    else if (passUppercase === "n") {
+    else if (uppercase === "n") {
       return false;
     }
     else {
       alert("Enter 'y' or 'n'");
-      uppercase();
+      uppercasePrompt();
     }
   };
-  // Numeric
-  var numeric = function () {
-    var passNumeric = prompt("Include numeric values? (y/n)");
-    passNumeric = passNumeric.toLowerCase();
-    if (passNumeric === "y") {
+  // Numeric Prompt
+  var numericPrompt = function () {
+    var numeric = prompt("Include numeric values? (y/n)");
+    numeric = numeric.toLowerCase();
+    if (numeric === "y") {
       return true;
     }
-    else if (passNumeric === "n") {
+    else if (numeric === "n") {
       return false;
     }
     else {
       alert("Enter 'y' or 'n'");
-      numeric();
+      numericPrompt();
     }
   };
-  // Special Characters
-  var specialChar = function () {
-    var passSpecialChar = prompt("Include special characters? (y/n)");
-    passSpecialChar = passSpecialChar.toLowerCase();
-    if (passSpecialChar === "y") {
+  // Special Chars Prompt
+  var specialCharPrompt = function () {
+    var specialChar = prompt("Include special characters? (y/n)");
+    specialChar = specialChar.toLowerCase();
+    if (specialChar === "y") {
       return true;
     }
-    else if (passSpecialChar === "n") {
+    else if (specialChar === "n") {
       return false;
     }
     else {
@@ -110,61 +87,114 @@ var passCritFunctions = function () {
       specialChar();
     }
   };
+  // All Inputs Object
   passwordCrit = {
-    length: length(),
-    lowercase: lowercase(),
-    uppercase: uppercase(),
-    numeric: numeric(),
-    specialChar: specialChar(),
+    length: lengthPrompt(),
+    lowercase: lowercasePrompt(),
+    uppercase: uppercasePrompt(),
+    numeric: numericPrompt(),
+    specialChar: specialCharPrompt(),
   }
-  return passwordCrit;
+  // If at least one input is true, return all inputs
+  if (passwordCrit.lowercase || passwordCrit.uppercase || passwordCrit.numeric || passwordCrit.specialChar) {
+    return passwordCrit;
+  }
+  else {
+    alert("Please select at least one character type.");
+    criteriaInput();
+  }
+};
+
+// User Input Validation
+var inputValid = function () {
+
+}
+
+// Character Type Selector
+var randomCharType = function () {
+  var arraySelector = function () {
+    switchCaseArray = [
+      0, 1, 2, 3
+    ];
+    // Lowercase Y/N?
+    if (!passwordCrit.lowercase) { // If input is false
+      for (var i = 0; i < switchCaseArray.length; i++) { // look through switchCaseArray
+        if (switchCaseArray[i] === 0) { // and find the number that matches the corresponding switch case
+          switchCaseArray.splice(i, 1); // and remove it from the array to prevent it from being selected
+        }
+      }
+    };
+    // Uppercase Y/N?
+    if (!passwordCrit.uppercase) {
+      for (var i = 0; i < switchCaseArray.length; i++) {
+        if (switchCaseArray[i] === 1) {
+          switchCaseArray.splice(i, 1);
+        }
+      }
+    };
+    // Numeric Y/N?
+    if (!passwordCrit.numeric) {
+      for (var i = 0; i < switchCaseArray.length; i++) {
+        if (switchCaseArray[i] === 2) {
+          switchCaseArray.splice(i, 1);
+        }
+      }
+    };
+    // SpecialChar Y/N?
+    if (!passwordCrit.specialChar) {
+      for (var i = 0; i < switchCaseArray.length; i++) {
+        if (switchCaseArray[i] === 3) {
+          switchCaseArray.splice(i, 1);
+        }
+      }
+    }
+    return switchCaseArray;
+  };
+  var arraySelection = arraySelector();
+  var selectedArray = arraySelection[Math.floor(Math.random() * arraySelection.length)];
+  return selectedArray;
 };
 
 // Character Selector
-var charSelect = function () {
-  var charSelector = function () {
-    var randomArray = function () {
-      var arraySelect = passCritArray[Math.floor(Math.random() * passCritArray.length)];
-      return arraySelect;
-    };
-    var array = randomArray();
-    switch (array) {
-      case 0:
-        var char = lowercaseArray[Math.floor(Math.random() * lowercaseArray.length)];
-        return char;
-      case 1:
-        var char = uppercaseArray[Math.floor(Math.random() * uppercaseArray.length)];
-        return char;
-      case 2:
-        var char = numericArray[Math.floor(Math.random() * numericArray.length)];
-        return char;
-      case 3:
-        var char = specialCharArray[Math.floor(Math.random() * specialCharArray.length)];
-        return char;
-      default:
-        break;
-    }
-  };
-  var character = charSelector();
-  return character;
+var charSelector = function () {
+  inputValid(); // Validates User Input
+  var charType = randomCharType(); // Chooses random character type based off of user input
+  switch (charType) { // Chooses random character from character type array
+    case 0: // Lowercase
+      var char = lowercaseArray[Math.floor(Math.random() * lowercaseArray.length)];
+      return char;
+    case 1: // Uppercase
+      var char = uppercaseArray[Math.floor(Math.random() * uppercaseArray.length)];
+      return char;
+    case 2: // Numeric
+      var char = numericArray[Math.floor(Math.random() * numericArray.length)];
+      return char;
+    case 3: // Special Chars
+      var char = specialCharArray[Math.floor(Math.random() * specialCharArray.length)];
+      return char;
+    default:
+      charSelector();
+      break;
+  }
 };
 
 // Generate Password Function
 var generatePassword = function () {
   sessionStorage.clear(); // Clear Old Password
-  passCritFunctions(); // passwordCrit.length.lowercase.uppercase.numeric.specialChar
-  for (i = 0; i < passwordCrit.length; i++) {
-    var character = charSelect(); // Random Character
-    var oldPassword = sessionStorage.getItem("Password");
+  criteriaInput(); // Obtain user input
+  for (i = 0; i < passwordCrit.length; i++) { // Loop until password length is reached
+    var character = charSelector(); // Picks Random Character based off user input
+    var oldPassword = sessionStorage.getItem("Password"); // Retrieves saved password
     oldPassword = oldPassword || "";
-    var newPassword = oldPassword + character;
-    sessionStorage.setItem("Password", newPassword);
-
+    var newPassword = oldPassword + character; // Adds new character to saved password
+    sessionStorage.setItem("Password", newPassword); // Saves new password
   }
-  return newPassword;
+  return newPassword; // Once password length is acheived, outputs password
 };
-//
-//
+
+// Starter code here
+// ********** ********** ********** ********** **********
+// ********** ********** ********** ********** **********
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
