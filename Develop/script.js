@@ -41,73 +41,73 @@ specialCharArray = [
 var passCritFunctions = function () {
   // Length
   var length = function () {
-    var length = prompt("Select password length. (Between 8 and 128)");
-    if (length >= 8 && length <= 128) {
-      return length;
+    var passLength = prompt("Select password length. (Between 8 and 128)");
+    if (passLength >= 8 && passLength <= 128) {
+      return passLength;
     }
     else {
       alert("Enter a number between 8 and 128");
-      this.length();
+      length();
     }
   };
   // Lowercase
   var lowercase = function () {
-    var lowercase = prompt("Include lowercase? (y/n)");
-    lowercase = lowercase.toLowerCase();
-    if (lowercase === "y") {
+    var passLowercase = prompt("Include lowercase? (y/n)");
+    passLowercase = passLowercase.toLowerCase();
+    if (passLowercase === "y") {
       return true;
     }
-    else if (lowercase === "n") {
+    else if (passLowercase === "n") {
       return false;
     }
     else {
       alert("Enter 'y' or 'n'");
-      this.lowercase();
+      lowercase();
     }
   };
   // Uppercase
   var uppercase = function () {
-    var uppercase = prompt("Include uppercase? (y/n)");
-    uppercase = uppercase.toLowerCase();
-    if (uppercase === "y") {
+    var passUppercase = prompt("Include uppercase? (y/n)");
+    passUppercase = passUppercase.toLowerCase();
+    if (passUppercase === "y") {
       return true;
     }
-    else if (uppercase === "n") {
+    else if (passUppercase === "n") {
       return false;
     }
     else {
       alert("Enter 'y' or 'n'");
-      this.uppercase();
+      uppercase();
     }
   };
   // Numeric
   var numeric = function () {
-    var numeric = prompt("Include numeric values? (y/n)");
-    numeric = numeric.toLowerCase();
-    if (numeric === "y") {
+    var passNumeric = prompt("Include numeric values? (y/n)");
+    passNumeric = passNumeric.toLowerCase();
+    if (passNumeric === "y") {
       return true;
     }
-    else if (numeric === "n") {
+    else if (passNumeric === "n") {
       return false;
     }
     else {
       alert("Enter 'y' or 'n'");
-      this.numeric();
+      numeric();
     }
   };
   // Special Characters
   var specialChar = function () {
-    var specialChar = prompt("Include special characters? (y/n)");
-    specialChar = specialChar.toLowerCase();
-    if (specialChar === "y") {
+    var passSpecialChar = prompt("Include special characters? (y/n)");
+    passSpecialChar = passSpecialChar.toLowerCase();
+    if (passSpecialChar === "y") {
       return true;
     }
-    else if (specialChar === "n") {
+    else if (passSpecialChar === "n") {
       return false;
     }
     else {
       alert("Enter 'y' or 'n'");
-      this.specialChar();
+      specialChar();
     }
   };
   passwordCrit = {
@@ -151,11 +151,16 @@ var charSelect = function () {
 
 // Generate Password Function
 var generatePassword = function () {
-  passCritFunctions(); //passwordCrit.length.lowercase.uppercase.numeric.specialChar
+  sessionStorage.clear(); // Clear Old Password
+  passCritFunctions(); // passwordCrit.length.lowercase.uppercase.numeric.specialChar
   for (i = 0; i < passwordCrit.length; i++) {
     var character = charSelect(); // Random Character
-
+    var oldPassword = sessionStorage.getItem("Password");
+    oldPassword = oldPassword || "";
+    var newPassword = oldPassword + character;
+    sessionStorage.setItem("Password", newPassword);
   }
+  return newPassword;
 };
 //
 //
