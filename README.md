@@ -7,6 +7,7 @@ This is a password generator that generates a random password comprised of rando
 ## How to Use
 
 Just click the generate password button and answer the prompts!
+
 ![Program example](./assets/images/example.gif)
 
 ## Link
