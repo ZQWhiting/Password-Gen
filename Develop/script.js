@@ -20,74 +20,40 @@ var criteriaInput = function () {
   var lengthPrompt = function () {
     var length = prompt("Select password length. (Between 8 and 128)");
     if (length >= 8 && length <= 128) {
-      return length;
+      var confirmation = confirm("Your password will be " + length + " characters long. Confirm?");
+      if (confirmation) {
+        return length; // Output
+      }
+      else {
+        return lengthPrompt();
+      }
     }
     else {
       alert("Enter a number between 8 and 128");
-      lengthPrompt();
+      return lengthPrompt();
     }
   };
   // Lowercase Prompt
   var lowercasePrompt = function () {
-    var lowercase = prompt("Include lowercase? (y/n)");
-    lowercase = lowercase.toLowerCase();
-    if (lowercase === "y") {
-      return true;
-    }
-    else if (lowercase === "n") {
-      return false;
-    }
-    else {
-      alert("Enter 'y' or 'n'");
-      lowercasePrompt();
-    }
+    var lowercase = confirm("Include lowercase characters?");
+    return inputValid("lowercase characters", lowercase, lowercasePrompt); // Validate: if yes, output
   };
   // Uppercase Prompt
   var uppercasePrompt = function () {
-    var uppercase = prompt("Include uppercase? (y/n)");
-    uppercase = uppercase.toLowerCase();
-    if (uppercase === "y") {
-      return true;
-    }
-    else if (uppercase === "n") {
-      return false;
-    }
-    else {
-      alert("Enter 'y' or 'n'");
-      uppercasePrompt();
-    }
+    var uppercase = confirm("Include uppercase characters?");
+    return inputValid("uppercase characters", uppercase, uppercasePrompt); // Validate: if yes, output
   };
   // Numeric Prompt
   var numericPrompt = function () {
-    var numeric = prompt("Include numeric values? (y/n)");
-    numeric = numeric.toLowerCase();
-    if (numeric === "y") {
-      return true;
-    }
-    else if (numeric === "n") {
-      return false;
-    }
-    else {
-      alert("Enter 'y' or 'n'");
-      numericPrompt();
-    }
+    var numeric = confirm("Include numeric characters?");
+    return inputValid("numeric characters", numeric, numericPrompt); // Validate: if yes, output
   };
   // Special Chars Prompt
   var specialCharPrompt = function () {
-    var specialChar = prompt("Include special characters? (y/n)");
-    specialChar = specialChar.toLowerCase();
-    if (specialChar === "y") {
-      return true;
-    }
-    else if (specialChar === "n") {
-      return false;
-    }
-    else {
-      alert("Enter 'y' or 'n'");
-      specialChar();
-    }
+    var specialChar = confirm("Include special characters?");
+    return inputValid("special characters", specialChar, specialCharPrompt); // Validate: if yes, output
   };
-  // All Inputs Object
+  // All Inputs Object // Stores User Inputs after Validation // Main output of the function
   passwordCrit = {
     length: lengthPrompt(),
     lowercase: lowercasePrompt(),
@@ -95,9 +61,26 @@ var criteriaInput = function () {
     numeric: numericPrompt(),
     specialChar: specialCharPrompt(),
   }
-  // If at least one input is true, return all inputs
+
+  // If at least one user input is true, output all user inputs
   if (passwordCrit.lowercase || passwordCrit.uppercase || passwordCrit.numeric || passwordCrit.specialChar) {
-    return passwordCrit;
+    // User Input Validation
+    var validPrompt = function () {
+      var userConfirm = confirm("Password length: " + passwordCrit.length + ". Password lowercase: " + passwordCrit.lowercase + ". Password uppercase: " + passwordCrit.uppercase + ". Password numerics: " + passwordCrit.numeric + ". Password special characters: " + passwordCrit.specialChar + ". Confirm Selection?");
+      if (userConfirm) {
+        return passwordCrit; // Main Output of the entire function
+      }
+      else {
+        var confirmation = confirm("Are you sure you want to reset selection?");
+        if (confirmation) {
+          criteriaInput();
+        }
+        else {
+          validPrompt();
+        }
+      }
+    };
+    return validPrompt(); // Outputting passwordCrit
   }
   else {
     alert("Please select at least one character type.");
@@ -105,10 +88,24 @@ var criteriaInput = function () {
   }
 };
 
-// User Input Validation
-var inputValid = function () {
-
-}
+// Input Validation Function
+var inputValid = function (type, inputValue, recurseFunction) {
+  // Responsive text
+  if (inputValue) {
+    var inputText = "Including"
+  }
+  else {
+    var inputText = "Excluding"
+  }
+  // confirm
+  var confirmation = confirm(inputText + " " + type + ". Confirm?");
+  if (confirmation) {
+    return inputValue;
+  }
+  else {
+    return recurseFunction();
+  }
+};
 
 // Character Type Selector
 var randomCharType = function () {
@@ -117,7 +114,7 @@ var randomCharType = function () {
       0, 1, 2, 3
     ];
     // Lowercase Y/N?
-    if (!passwordCrit.lowercase) { // If input is false
+    if (!passwordCrit.lowercase) { // If input is falsey
       for (var i = 0; i < switchCaseArray.length; i++) { // look through switchCaseArray
         if (switchCaseArray[i] === 0) { // and find the number that matches the corresponding switch case
           switchCaseArray.splice(i, 1); // and remove it from the array to prevent it from being selected
@@ -151,27 +148,27 @@ var randomCharType = function () {
     return switchCaseArray;
   };
   var arraySelection = arraySelector();
+  // Random character from selected array
   var selectedArray = arraySelection[Math.floor(Math.random() * arraySelection.length)];
-  return selectedArray;
+  return selectedArray; // Output
 };
 
 // Character Selector
 var charSelector = function () {
-  inputValid(); // Validates User Input
   var charType = randomCharType(); // Chooses random character type based off of user input
   switch (charType) { // Chooses random character from character type array
     case 0: // Lowercase
       var char = lowercaseArray[Math.floor(Math.random() * lowercaseArray.length)];
-      return char;
+      return char; // Output
     case 1: // Uppercase
       var char = uppercaseArray[Math.floor(Math.random() * uppercaseArray.length)];
-      return char;
+      return char; // Output
     case 2: // Numeric
       var char = numericArray[Math.floor(Math.random() * numericArray.length)];
-      return char;
+      return char; // Output
     case 3: // Special Chars
       var char = specialCharArray[Math.floor(Math.random() * specialCharArray.length)];
-      return char;
+      return char; // Output
     default:
       charSelector();
       break;
@@ -189,7 +186,7 @@ var generatePassword = function () {
     var newPassword = oldPassword + character; // Adds new character to saved password
     sessionStorage.setItem("Password", newPassword); // Saves new password
   }
-  return newPassword; // Once password length is acheived, outputs password
+  return newPassword; // Once password length is acheived, output password
 };
 
 // Starter code here
