@@ -170,8 +170,7 @@ var charSelector = function () {
       var char = specialCharArray[Math.floor(Math.random() * specialCharArray.length)];
       return char; // Output
     default:
-      charSelector();
-      break;
+      return charSelector();
   }
 };
 
